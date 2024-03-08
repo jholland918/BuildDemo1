@@ -48,10 +48,10 @@ jobs:
         targetPlatform:
           - StandaloneWindows64
     steps:
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.3.3
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('Makefile', 'docker/**', '.dockerignore') }}
+#      - name: Cache Docker images.
+#        uses: ScribeMD/docker-cache@0.3.3
+#        with:
+#          key: docker-${{ runner.os }}-${{ hashFiles('Makefile', 'docker/**', '.dockerignore') }}
       - uses: actions/checkout@v4
         with:
           lfs: true
