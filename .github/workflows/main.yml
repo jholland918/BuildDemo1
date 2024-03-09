@@ -66,7 +66,7 @@ jobs:
         with:
           projectPath: BuildDemo1
           targetPlatform: ${{ matrix.targetPlatform }}
-#          unityVersion: 2022.3.9f1
+          unityVersion: 2022.3.9f1
           allowDirtyBuild: true
       - uses: actions/upload-artifact@v3
         with:
