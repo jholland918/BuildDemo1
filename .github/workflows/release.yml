@@ -131,8 +131,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Zip Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          directory: 'artifact/StandaloneWindows64'
+          filename: 'StandaloneWindows64.zip'
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog.outputs.changelog }}
-          files: artifact/StandaloneWindows64/**
+          files: 'StandaloneWindows64.zip'
