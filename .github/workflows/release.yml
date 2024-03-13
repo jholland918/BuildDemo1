@@ -135,4 +135,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog.outputs.changelog }}
-          files: artifact/**
+          files: artifact/StandaloneWindows64/**
