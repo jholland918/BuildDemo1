@@ -134,7 +134,7 @@ jobs:
       - name: Zip Release
         uses: thedoctor0/zip-release@0.7.5
         with:
-          path: 'artifact/StandaloneWindows64'
+          directory: 'artifact/StandaloneWindows64'
           filename: StandaloneWindows64.zip
 
       - name: Display structure of working directory
@@ -144,4 +144,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog.outputs.changelog }}
-          files: StandaloneWindows64.zip
+          files: artifact/StandaloneWindows64/StandaloneWindows64.zip
