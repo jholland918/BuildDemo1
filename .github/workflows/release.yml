@@ -134,8 +134,8 @@ jobs:
       - name: Zip Release
         uses: thedoctor0/zip-release@0.7.5
         with:
-          directory: 'artifact/StandaloneWindows64'
-          filename: 'StandaloneWindows64.zip'
+          path: 'artifact/StandaloneWindows64'
+          filename: StandaloneWindows64.zip
 
       - name: Display structure of working directory
         run: ls -R
