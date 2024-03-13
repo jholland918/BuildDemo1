@@ -1,11 +1,22 @@
-name: Build Demo 1
+name: Release
 
-on: [push, pull_request]
-# again
-### Refer to https://game.ci/docs/github/getting-started
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+    paths-ignore:
+    - 'Docs/**'
+    # - 'README.md'
+
+permissions:
+  contents: write # needed to create releases
+
 jobs:
   checklicense:
     name: Check for UNITY_LICENSE in GitHub Secrets
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     outputs:
       is_unity_license_set: ${{ steps.checklicense_job.outputs.is_unity_license_set }}
@@ -38,6 +49,20 @@ jobs:
           name: ${{ steps.getManualLicenseFile.outputs.filePath }}
           path: ${{ steps.getManualLicenseFile.outputs.filePath }}
 
+  # build:
+  #   name: Build
+  #   needs: checklicense
+  #   if: startsWith(github.ref, 'refs/tags/')
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Build Game
+  #       run: mkdir artifact ; echo ${{ github.sha }} > artifact/Release.txt
+  #     - name: Upload Artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: artifact
+  #         path: artifact
+
   build:
     needs: checklicense
     name: Build for ${{ matrix.targetPlatform }}
@@ -66,9 +91,41 @@ jobs:
         with:
           projectPath: BuildDemo1
           targetPlatform: ${{ matrix.targetPlatform }}
-          unityVersion: 2022.3.9f1
+          #unityVersion: 2022.3.9f1
           allowDirtyBuild: true
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Build-${{ matrix.targetPlatform }}
-          path: build
+          path: build-${{ matrix.targetPlatform }}
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+          path: artifact
+
+      - name: Display structure of downloaded artifact
+        run: ls -R
+
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configuration: ".github/changelog-configuration.json"
+          commitMode: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Create Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     body: ${{ steps.changelog.outputs.changelog }}
+      #     files: artifact/Release.txt
