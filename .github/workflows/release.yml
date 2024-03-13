@@ -100,39 +100,39 @@ jobs:
       - name: Display build 1
         run: dir build
 
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: Build-${{ matrix.targetPlatform }}
-      #     path: build-${{ matrix.targetPlatform }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          path: build
 
-  # release:
-  #   name: Release
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Download Artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: artifact
-  #         path: artifact
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+          path: artifact
 
-  #     - name: Display structure of downloaded artifact
-  #       run: ls -R
+      - name: Display structure of downloaded artifact
+        run: ls -R
 
-  #     - name: Build Changelog
-  #       id: changelog
-  #       uses: mikepenz/release-changelog-builder-action@v4
-  #       with:
-  #         configuration: ".github/changelog-configuration.json"
-  #         commitMode: true
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configuration: ".github/changelog-configuration.json"
+          commitMode: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Create Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     body: ${{ steps.changelog.outputs.changelog }}
-      #     files: artifact/Release.txt
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.changelog.outputs.changelog }}
+          files: artifact/**
