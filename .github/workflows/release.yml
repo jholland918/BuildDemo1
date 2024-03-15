@@ -154,7 +154,7 @@ jobs:
         run: stat artifact/StandaloneWindows64/Client/StandaloneWindows64.zip
 
       - name: Collect release files
-        run: |
+        run: >
           mkdir release;
           mv 
           artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
