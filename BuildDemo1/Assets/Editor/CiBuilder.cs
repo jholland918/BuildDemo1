@@ -14,7 +14,7 @@ namespace Assets.Editor
     /// </summary>
     /// <remarks>
     /// The initial version of this script was copied from the example at https://raw.githubusercontent.com/game-ci/documentation/main/example/BuildScript.cs
-    /// This script is referenced in our release.yml file as `buildMethod: Assets.Editor.CiBuildScript.Build`. Any refactors/renames must also be made in the related Github Actions yml files.
+    /// This script is referenced in our release.yml file as `buildMethod: Assets.Editor.CiBuilder.Build`. Any refactors/renames must also be made in the related Github Actions yml files.
     /// </remarks>
     public static class CiBuilder
     {
@@ -31,8 +31,6 @@ namespace Assets.Editor
             PlayerSettings.bundleVersion = options["buildVersion"];
             PlayerSettings.macOS.buildNumber = options["buildVersion"];
             PlayerSettings.Android.bundleVersionCode = int.Parse(options["androidVersionCode"]);
-
-
 
             // Determine subtarget
             int buildSubtarget = 0;
