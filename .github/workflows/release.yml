@@ -157,6 +157,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog.outputs.changelog }}
-          files: |
-            ${{ env.INSTALL_PATH }}/artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
-            ${{ env.INSTALL_PATH }}/artifact/StandaloneWindows64/Client/StandaloneWindows64.zip
+          files: artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
