@@ -90,6 +90,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           projectPath: BuildDemo1
+          buildMethod: Assets.Editor.CiBuilder.Build
           targetPlatform: ${{ matrix.targetPlatform }}
           #unityVersion: 2022.3.9f1
           allowDirtyBuild: true
@@ -131,10 +132,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Zip Release
+      - name: Zip Server Release
         uses: thedoctor0/zip-release@0.7.5
         with:
-          directory: 'artifact/StandaloneWindows64'
+          directory: 'artifact/StandaloneWindows64/Server'
+          filename: StandaloneWindows64.zip
+
+      - name: Zip Client Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          directory: 'artifact/StandaloneWindows64/Client'
           filename: StandaloneWindows64.zip
 
       - name: Display structure of working directory
@@ -144,4 +151,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog.outputs.changelog }}
-          files: artifact/StandaloneWindows64/StandaloneWindows64.zip
+          files: |
+            artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
+            artifact/StandaloneWindows64/Client/StandaloneWindows64.zip
