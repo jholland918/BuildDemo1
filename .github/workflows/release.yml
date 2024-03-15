@@ -155,11 +155,10 @@ jobs:
 
       - name: Collect release files
         run: >
-          mkdir release;
-          mv 
-          artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
-          artifact/StandaloneWindows64/Client/StandaloneWindows64.zip
-          release/
+          mkdir -p release/Server;
+          mv artifact/StandaloneWindows64/Server/StandaloneWindows64.zip release/Server;
+          mkdir -p release/Client;
+          mv artifact/StandaloneWindows64/Client/StandaloneWindows64.zip release/Client;
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
