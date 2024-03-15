@@ -153,8 +153,16 @@ jobs:
       - name: Display Client stats
         run: stat artifact/StandaloneWindows64/Client/StandaloneWindows64.zip
 
+      - name: Collect release files
+        run: |
+          mkdir release;
+          mv 
+          artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
+          artifact/StandaloneWindows64/Client/StandaloneWindows64.zip
+          release/
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog.outputs.changelog }}
-          files: artifact/StandaloneWindows64/Server/StandaloneWindows64.zip
+          files: release/**/*
